@@ -11,11 +11,19 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import Leaderboard from 'react-native-leaderboard';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  state = {
+      data: [
+        {user: 'Sean', adherence: 100},
+        {user: 'Mahima', adherence: 50},
+        {user: 'Ki Ki', adherence: 80},
+      ]
+    }
 
   render() {
     return (
@@ -52,7 +60,10 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
+        <Leaderboard
+          data={this.state.data}
+          sortBy='adherence'
+          labelBy='user'/>
         <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
