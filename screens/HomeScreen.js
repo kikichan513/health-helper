@@ -7,10 +7,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
+import { createStackNavigator } from 'react-navigation';
+
+
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -25,7 +29,7 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/robot-dev.png')
+                  ? require('../assets/images/pill-icon.png')
                   : require('../assets/images/robot-prod.png')
               }
               style={styles.welcomeImage}
@@ -33,24 +37,32 @@ export default class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+          {/* {this._maybeRenderDevelopmentModeWarning()} */}
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
+            <Text style={styles.getStartedText}> Welcome to our app</Text>
 
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+            <View style={[styles.codeHighlightContainer]}>
+              <MonoText style={styles.codeHighlightText}> Health Care Adherence</MonoText>
             </View>
 
             <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
+              Take a photo!
             </Text>
           </View>
 
-          <View style={styles.helpContainer}>
+
+          <Button
+            title="Go to LeaderBoard"
+            onPress={() => this.props.navigation.navigate('LeaderBoard.js')}
+        />
+ 
+
+
+        {/*<View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
-          </View>
+          </View>*/}
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
@@ -66,11 +78,11 @@ export default class HomeScreen extends React.Component {
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
+      // const learnMoreButton = (
+      //   <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+      //     Learn more
+      //   </Text>
+      // );
 
       return (
         <Text style={styles.developmentModeText}>
