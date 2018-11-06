@@ -85,8 +85,6 @@ export default class HomeScreen extends React.Component {
                 />
             </TouchableOpacity>
 
-
-
             </View>
           </Camera>
     
@@ -111,7 +109,7 @@ export default class HomeScreen extends React.Component {
           QRimage = photo.uri;
           console.log(QRimage);
           console.log(photo); 
-          this.props.navigation.navigate('LeaderBoard', { name: 'LeaderBoard' }) 
+          this.props.navigation.navigate('TasksStack', { name: 'TasksStack' }) 
            });     
      }
     }
