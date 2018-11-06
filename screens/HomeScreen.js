@@ -14,6 +14,7 @@ import { MonoText } from '../components/StyledText';
 import { createStackNavigator } from 'react-navigation';
 import { Camera, Permissions } from 'expo';
 
+let QRimage;
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -38,45 +39,28 @@ export default class HomeScreen extends React.Component {
     return <Text>No access to camera</Text>;
   } else {
     return (
+
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/pill-icon.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
 
-          <View style={styles.getStartedContainer}>
-          {/* {this._maybeRenderDevelopmentModeWarning()} */}
-
-            <Text style={styles.getStartedText}> Welcome to our app</Text>
-
-            <View style={[styles.codeHighlightContainer]}>
-              <MonoText style={styles.codeHighlightText}> Health Care Adherence</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Take a photo!
-            </Text>
-          </View>
-
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          {/* (ref) => {this.camera} create reference to  camera */}
+          <Camera style={{ flex: 1 }} 
+                  ref={ (ref) => {this.camera = ref}} 
+                  type={this.state.type}>
             <View
               style={{
                 flex: 1,
+
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
+
               <TouchableOpacity
                 style={{
                   flex: 0.1,
                   alignSelf: 'flex-end',
                   alignItems: 'center',
+                  height: 620,
                 }}
                 onPress={() => {
                   this.setState({
@@ -86,48 +70,57 @@ export default class HomeScreen extends React.Component {
                   });
                 }}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}Flip{' '}
+                  style={{ fontSize: 10, marginBottom: 10, color: 'white' }}>
+                  flip
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */
+
+              <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
+                <Image style= {{width: 60, height: 60}} source={require('../assets/images/camera.png')}          
+                />
+            </TouchableOpacity>
+
+              <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
+                <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
+                />
+            </TouchableOpacity>
+
+
+
             </View>
           </Camera>
     
-          <Button
+{          /*<Button
             title="Go to LeaderBoard"
             onPress={() => this.props.navigation.navigate('LeaderBoard', { name: 'LeaderBoard' })}
-        />
- 
-
-
-        {/*<View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>*/}
+        />*/}
         </ScrollView>
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
-    );
-    
+      );
     }
   }
 
+// { returns a Promise that resolves to an object: { uri, width, height, exif, base64 } where uri is a URI to the local image file (useable as the source for an Image element) and width, height specify the dimensions of the image. 
+// ref: https://docs.expo.io/versions/latest/sdk/camera }
 
+ async snapPhoto() {  
+    console.log('Button photo');
+    console.log('this.props: ', this.props);
+    if (this.camera) {
+       console.log('Taking photo');
+       const options = { quality: 1, base64: true, fixOrientation: true, 
+       exif: true};
+       await this.camera.takePictureAsync(options).then(photo => {
+          QRimage = photo.uri;
+          console.log(QRimage);
+          console.log(photo); 
+          this.props.navigation.navigate('LeaderBoard', { name: 'LeaderBoard' }) 
+           });     
+     }
+    }
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
-      // const learnMoreButton = (
-      //   <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-      //     Learn more
-      //   </Text>
-      // );
 
       return (
         <Text style={styles.developmentModeText}>
@@ -156,6 +149,11 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  captureButton:{
+     marginTop: 500,
+     marginLeft: 70,
+     
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
