@@ -90,7 +90,7 @@ export default class HomeScreen extends React.Component {
             </View>
           </Camera>
     
-{          /*<Button
+        {/*<Button
             title="Go to LeaderBoard"
             onPress={() => this.props.navigation.navigate('LeaderBoard', { name: 'LeaderBoard' })}
         />*/}
@@ -99,9 +99,6 @@ export default class HomeScreen extends React.Component {
       );
     }
   }
-
-// { returns a Promise that resolves to an object: { uri, width, height, exif, base64 } where uri is a URI to the local image file (useable as the source for an Image element) and width, height specify the dimensions of the image. 
-// ref: https://docs.expo.io/versions/latest/sdk/camera }
 
  async snapPhoto() {  
     console.log('Button photo');
