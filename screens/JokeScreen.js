@@ -8,8 +8,7 @@ export default class JokeScreen extends React.Component {
   constructor(){
     super();
     this.state = {
-      titleText: "Joke",
-      bodyText: "An apple a day keeps the doctor away... if you aim well!"
+      bodyText: "An apple a day keeps the doctor away... if you aim well!",
     }
   }
   newJoke() {
@@ -34,9 +33,6 @@ export default class JokeScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.titleText} onPress={this.onPressTitle}>
-          {this.state.titleText}{'\n'}{'\n'}
-        </Text>
         <Text numberOfLines={5}>
           {this.state.bodyText}
         </Text>

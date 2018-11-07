@@ -60,7 +60,7 @@ export default class HomeScreen extends React.Component {
                   flex: 0.1,
                   alignSelf: 'flex-end',
                   alignItems: 'center',
-                  height: 620,
+                  height: 720,
                 }}
                 onPress={() => {
                   this.setState({
@@ -145,7 +145,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   captureButton:{
-     marginTop: 500,
+     marginTop: 600,
      marginLeft: 70,
      
   },
