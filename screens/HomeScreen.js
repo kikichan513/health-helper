@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component {
                   style={{ fontSize: 10, marginBottom: 10, color: 'white' }}>
                   flip
                 </Text>
-              </TouchableOpacity> */
+              </TouchableOpacity>
 
               <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
                 <Image style= {{width: 60, height: 60}} source={require('../assets/images/camera.png')}          

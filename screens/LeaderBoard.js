@@ -39,9 +39,8 @@ export default class LeaderBoard extends Component {
             sortBy: 'score',
             data: this.state.data,
             icon: 'iconUrl',
-            onRowPress: (item, index) => {
-                this._alert("Question: Does an apple a day keep the doctor away?",
-                    "Answer: Only if you aim it well enough.")
+            onRowPress: () => {
+                this.props.navigation.navigate('Joke')
             },
             evenRowColor: '#edfcf9',
         }

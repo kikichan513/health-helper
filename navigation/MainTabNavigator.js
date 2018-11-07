@@ -4,10 +4,10 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import TasksScreen from '../screens/TasksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LeaderBoardScreen from'../screens/LeaderBoard';
+import JokeScreen from '../screens/JokeScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -27,20 +27,6 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
-    />
-  ),
-};
-
 const TasksStack = createStackNavigator({
   Tasks: TasksScreen,
 });
@@ -50,7 +36,9 @@ TasksStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-link'}
+      name={Platform.OS === 'ios'
+        ? `ios-options${focused ? ''
+        : '-outline'}` : 'md-link'}
     />
   ),
 };
@@ -64,7 +52,9 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+      name={Platform.OS === 'ios'
+        ? `ios-options${focused ? ''
+        : '-outline'}` : 'md-options'}
     />
   ),
 };
@@ -78,7 +68,25 @@ LeaderboardStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-trophy'}
+      name={Platform.OS === 'ios'
+      ? `ios-options${focused ? '' : '-outline'}`
+      : 'md-trophy'}
+    />
+  ),
+};
+
+const JokeStack = createStackNavigator({
+  Joke: JokeScreen,
+});
+
+JokeStack.navigationOptions = {
+  tabBarLabel: 'Jokes',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios'
+      ? `ios-options${focused ? '' : '-outline'}`
+      : 'md-happy'}
     />
   ),
 };
@@ -87,6 +95,6 @@ export default createBottomTabNavigator({
   HomeStack,
   TasksStack,
   LeaderboardStack,
-  LinksStack,
   SettingsStack,
+  JokeStack,
 });
