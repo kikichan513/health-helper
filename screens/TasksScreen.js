@@ -21,36 +21,44 @@ export default class App extends Component {
     };
   }
 
+  _storeData = async (task) => {
+    try {
+        await AsyncStorage.setItem(task, "1");
+      } catch (error) {}
+    }
 
     _alert = (title, body) => {
         Alert.alert(title, body,
-            [{ text: 'OK', onPress: () => this.props.navigation.navigate('LeaderBoard') }, { text: 'Cancel', onPress: () => { } }],
+            [{ text: 'OK', onPress: () => {
+                this.props.navigation.navigate('LeaderBoard'),
+                this._storeData(body) } },
+                { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
         )
     }
 
-  //componentDidMount() {
- //   var that = this;
+  componentDidMount() {
+   var that = this;
     //We are showing the coundown timer for a given expiry date-time
     //If you are making a quize type app then you need to make a simple timer
     //which can be done by using the simple like given below
     //that.setState({ totalDuration: 30 }); //which is 30 sec
- //   var date = moment()
- //     .utcOffset('+05:30')
- //     .format('YYYY-MM-DD hh:mm:ss');
+    var date = moment()
+      .utcOffset('+05:30')
+      .format('YYYY-MM-DD hh:mm:ss');
     //Getting the current date-time with required formate and UTC   
- //   var expirydate = '2018-11-23 04:00:45';//You can set your own date-time
+    var expirydate = '2018-11-23 04:00:45';//You can set your own date-time
     //Let suppose we have to show the countdown for above date-time 
- //   var diffr = moment.duration(moment(expirydate).diff(moment(date)));
+    var diffr = moment.duration(moment(expirydate).diff(moment(date)));
     //difference of the expiry date-time given and current date-time
- //   var hours = parseInt(diffr.asHours());
- //   var minutes = parseInt(diffr.minutes());
- //   var seconds = parseInt(diffr.seconds());
- //   var d = 24 * 60 * 60;
+    var hours = parseInt(diffr.asHours());
+    var minutes = parseInt(diffr.minutes());
+    var seconds = parseInt(diffr.seconds());
+    var d = hours * 60 * 60 + minutes * 60 + seconds;
     //converting in seconds
- //   that.setState({ totalDuration: d });
+    that.setState({ totalDuration: d });
     //Settign up the duration of countdown in seconds to re-render
-  //}
+  }
   render() {
     console.log(this.state.totalDuration);
     return (
@@ -67,7 +75,7 @@ export default class App extends Component {
         </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
         <CountDown
-          until={24 * 60 * 60}
+          until={this.state.totalDuration}
           //duration of countdown in seconds
           timetoShow={('H', 'M', 'S')}
           //format to show
