@@ -1,7 +1,7 @@
 /*This is an example of CountDown Timer*/
 import React, { Component } from 'react';
 //import React in our project
-import { View, Alert, Text } from 'react-native';
+import { View, Alert, Text, AsyncStorage } from 'react-native';
 //import all the component we need in our project
 import CountDown from 'react-native-countdown-component';
 //import CountDown to show the timer
@@ -24,14 +24,17 @@ export default class App extends Component {
   _storeData = async (task) => {
     try {
         await AsyncStorage.setItem(task, "1");
-      } catch (error) {}
+        console.log("async printing" + task);
+      } catch (error) {console.log("error");}
     }
 
-    _alert = (title, body) => {
-        Alert.alert(title, body,
+    _alert = (title, task) => {
+        console.log("alert task", task)
+        Alert.alert(title, task,
             [{ text: 'OK', onPress: () => {
                 this.props.navigation.navigate('LeaderBoard'),
-                this._storeData(body) } },
+                this._storeData(task),
+                console.log(task) } },
                 { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
         )
@@ -74,14 +77,14 @@ export default class App extends Component {
           </Text>
         </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
-        <CountDown
+        <CountDown id= 'Task One'
           until={this.state.totalDuration}
           //duration of countdown in seconds
           timetoShow={('H', 'M', 'S')}
           //format to show
           onFinish={() => alert("Time's up!")}
           //on Finish call
-          onPress={() => this._alert('Submit?')}
+          onPress={() => this._alert('Submit?', 'Task One')}
           //on Press call
           size={30}
         />
@@ -99,7 +102,7 @@ export default class App extends Component {
           //format to show
           onFinish={() => alert("Time's up!")}
           //on Finish call
-          onPress={() => this._alert('Submit?')}
+          onPress={() => this._alert('Submit?', 'Task Two')}
           //on Press call
           size={30}
         />
@@ -117,7 +120,7 @@ export default class App extends Component {
           //format to show
           onFinish={() => alert("Time's up!")}
           //on Finish call
-          onPress={() => this._alert('Submit?')}
+          onPress={() => this._alert('Submit?', 'Task Three')}
           //on Press call
           size={30}
         />

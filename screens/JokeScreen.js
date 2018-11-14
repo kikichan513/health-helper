@@ -16,11 +16,12 @@ export default class JokeScreen extends React.Component {
 
   _retrieveData = async () => {
     try {
-      value = await AsyncStorage.getItem("Task 1");
+      value = await AsyncStorage.getItem('Task One');
+      console.log(value)
       if (value == "1") {
         console.log("async joke: " + value);
         this.newJoke();
-        AsyncStorage.setItem("Task 1", "0");
+        AsyncStorage.setItem('Task One', "0");
       }
      } catch (error) {
        console.log("async joke error")
