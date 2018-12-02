@@ -9,12 +9,16 @@ import {
   View,
   Button,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { createStackNavigator } from 'react-navigation';
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, WebBrowser, FileSystem} from 'expo';
 
 let QRimage;
+
+var people = [
+  {name: 'Quang Vĩ', age: 29},
+  {name: 'Sơn Tùng', age: 24},
+];
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -32,72 +36,60 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+  const { navigate } = this.props.navigation
+
   const { hasCameraPermission } = this.state;
   if (hasCameraPermission === null) {
     return <View />;
   } else if (hasCameraPermission === false) {
     return <Text>No access to camera</Text>;
   } else {
-    return (
-
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-          {/* (ref) => {this.camera} create reference to  camera */}
-          <Camera style={{ flex: 1 }} 
-                  ref={ (ref) => {this.camera = ref}} 
-                  type={this.state.type}>
-            <View
-              style={{
-                flex: 1,
-
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-              }}>
-
-              <TouchableOpacity
+      return (
+        <View style={styles.container}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            {/* (ref) => {this.camera} create reference to  camera */}
+            <Camera style={{ flex: 1 }} 
+                    ref={ (ref) => {this.camera = ref}} 
+                    type={this.state.type}>
+              <View
                 style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                  height: 720,
-                }}
-                onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                  });
+                  flex: 1,
+                  backgroundColor: 'transparent',
+                  flexDirection: 'row',
                 }}>
-                <Text
-                  style={{ fontSize: 10, marginBottom: 10, color: 'white' }}>
-                  flip
-                </Text>
+                <TouchableOpacity
+                  style={{
+                    flex: 0.1,
+                    alignSelf: 'flex-end',
+                    alignItems: 'center',
+                    height: 720,
+                  }}
+                  onPress={() => {
+                    this.setState({
+                      type: this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                    });
+                  }}>
+                  <Text
+                    style={{ fontSize: 10, marginBottom: 10, color: 'white' }}>
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
+                  <Image style= {{width: 60, height: 60}} source={require('../assets/images/camera.png')}          
+                  />
               </TouchableOpacity>
-
-              <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
-                <Image style= {{width: 60, height: 60}} source={require('../assets/images/camera.png')}          
-                />
-            </TouchableOpacity>
-
-              <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
-                <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
-                />
-            </TouchableOpacity>
-
-            </View>
-          </Camera>
-    
-        {/*<Button
-            title="Go to LeaderBoard"
-            onPress={() => this.props.navigation.navigate('LeaderBoard', { name: 'LeaderBoard' })}
-        />*/}
-        </ScrollView>
-      </View>
-      );
+                <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
+                  <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
+                  />
+              </TouchableOpacity>
+              </View>
+            </Camera>
+          </ScrollView>
+        </View>
+        );
     }
   }
-
  async snapPhoto() {  
     console.log('Button photo');
     console.log('this.props: ', this.props);
@@ -106,10 +98,7 @@ export default class HomeScreen extends React.Component {
        const options = { quality: 1, base64: true, fixOrientation: true, 
        exif: true};
        await this.camera.takePictureAsync(options).then(photo => {
-          QRimage = photo.uri;
-          console.log(QRimage);
-          console.log(photo); 
-          this.props.navigation.navigate('TasksStack', { name: 'TasksStack' }) 
+          this.props.navigation.navigate('ImageStack', { name: 'ImageStack', people: people}) 
            });     
      }
     }
