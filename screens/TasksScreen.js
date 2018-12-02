@@ -1,14 +1,16 @@
 /*This is an example of CountDown Timer*/
 import React, { Component } from 'react';
 //import React in our project
-import { View, Alert, Text, AsyncStorage } from 'react-native';
+import { View, Alert, Text, AsyncStorage, TouchableHighlight } from 'react-native';
 //import all the component we need in our project
 import CountDown from 'react-native-countdown-component';
 //import CountDown to show the timer
 import moment from 'moment';
 //import moment to help you play with date and time
- 
+
+
 export default class App extends Component {
+
     static navigationOptions = {
         header: null,
         title: 'Tasks',
@@ -18,6 +20,7 @@ export default class App extends Component {
     //initialize the counter duration
     this.state = {
       totalDuration: '',
+      cColor: '#FAB913',
     };
   }
 
@@ -34,6 +37,9 @@ export default class App extends Component {
             [{ text: 'OK', onPress: () => {
                 this.props.navigation.navigate('LeaderBoard'),
                 this._storeData(task),
+                this.setState({
+                  cColor: 'grey'
+                }),
                 console.log(task) } },
                 { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
@@ -50,7 +56,7 @@ export default class App extends Component {
       .utcOffset('+05:30')
       .format('YYYY-MM-DD hh:mm:ss');
     //Getting the current date-time with required formate and UTC   
-    var expirydate = '2018-11-23 04:00:45';//You can set your own date-time
+    var expirydate = '2018-12-23 04:00:45';//You can set your own date-time
     //Let suppose we have to show the countdown for above date-time 
     var diffr = moment.duration(moment(expirydate).diff(moment(date)));
     //difference of the expiry date-time given and current date-time
@@ -78,6 +84,7 @@ export default class App extends Component {
         </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
         <CountDown id= 'Task One'
+          digitBgColor={this.state.cColor}
           until={this.state.totalDuration}
           //duration of countdown in seconds
           timetoShow={('H', 'M', 'S')}
@@ -85,42 +92,6 @@ export default class App extends Component {
           onFinish={() => alert("Time's up!")}
           //on Finish call
           onPress={() => this._alert('Submit?', 'Task One')}
-          //on Press call
-          size={30}
-        />
-        </View>
-        <View style={{ paddingTop: 15, alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
-              Task Two
-          </Text>
-        </View>
-       <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
-        <CountDown
-          until= {30 * 60 * 60}
-          //duration of countdown in seconds
-          timetoShow={('H', 'M', 'S')}
-          //format to show
-          onFinish={() => alert("Time's up!")}
-          //on Finish call
-          onPress={() => this._alert('Submit?', 'Task Two')}
-          //on Press call
-          size={30}
-        />
-        </View>
-       <View style={{ paddingTop: 15, alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
-              Task Three
-          </Text>
-        </View>
-      <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
-        <CountDown
-          until= {10 * 60 * 60}
-          //duration of countdown in seconds
-          timetoShow={('H', 'M', 'S')}
-          //format to show
-          onFinish={() => alert("Time's up!")}
-          //on Finish call
-          onPress={() => this._alert('Submit?', 'Task Three')}
           //on Press call
           size={30}
         />
