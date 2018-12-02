@@ -15,12 +15,12 @@ export default class ImageScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          people: this.props.navigation.state.params.people,
+          url: this.props.navigation.state.params.url,
         };
     }
 
     render() {
-        console.log(this.state.people);
+        console.log(this.state.url);
         return (
             <View style={styles.container}>
                 <Text>Image Screen</Text>

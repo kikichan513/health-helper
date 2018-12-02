@@ -1,227 +1,148 @@
-import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-} from 'react-native';
-import { MonoText } from '../components/StyledText';
+import React, { Component } from 'react';
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { BarCodeScanner, Permissions } from 'expo';
 import { createStackNavigator } from 'react-navigation';
-import { Camera, Permissions, WebBrowser, FileSystem} from 'expo';
 
-let QRimage;
 
-var people = [
-  {name: 'Quang Vĩ', age: 29},
-  {name: 'Sơn Tùng', age: 24},
-];
-
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-
+export default class App extends Component {
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
+    lastScannedUrl: null,
   };
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+  componentDidMount() {
+    this._requestCameraPermission();
   }
 
-  render() {
-  const { navigate } = this.props.navigation
+  _requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      hasCameraPermission: status === 'granted',
+    });
+  };
 
-  const { hasCameraPermission } = this.state;
-  if (hasCameraPermission === null) {
-    return <View />;
-  } else if (hasCameraPermission === false) {
-    return <Text>No access to camera</Text>;
-  } else {
-      return (
-        <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            {/* (ref) => {this.camera} create reference to  camera */}
-            <Camera style={{ flex: 1 }} 
-                    ref={ (ref) => {this.camera = ref}} 
-                    type={this.state.type}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                }}>
-                <TouchableOpacity
+  _handleBarCodeRead = result => {
+    if (result.data !== this.state.lastScannedUrl) {
+      LayoutAnimation.spring();
+      this.setState({ lastScannedUrl: result.data });
+      {/* logic to go to next screen => can move this to the tab screen*/}
+      console.log("lastScannedUrl" + result.data)
+      if (result.data == "adherence"){
+        console.log("lets navigate")
+        this.props.navigation.navigate('Tasks')
+      }
+    }
+  };
+
+  render() {
+    const { navigate } = this.props.navigation
+
+    return (
+      <View style={styles.container}>
+
+        {this.state.hasCameraPermission === null
+          ? <Text>Requesting for camera permission</Text>
+          : this.state.hasCameraPermission === false
+              ? <Text style={{ color: '#fff' }}>
+                  Camera permission is not granted
+                </Text>
+              : <BarCodeScanner
+                  onBarCodeRead={this._handleBarCodeRead}
                   style={{
-                    flex: 0.1,
-                    alignSelf: 'flex-end',
-                    alignItems: 'center',
-                    height: 720,
+                    height: Dimensions.get('window').height,
+                    width: Dimensions.get('window').width,
                   }}
-                  onPress={() => {
-                    this.setState({
-                      type: this.state.type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back,
-                    });
-                  }}>
-                  <Text
-                    style={{ fontSize: 10, marginBottom: 10, color: 'white' }}>
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
-                  <Image style= {{width: 60, height: 60}} source={require('../assets/images/camera.png')}          
-                  />
-              </TouchableOpacity>
-                <TouchableOpacity style={styles.captureButton} onPress={this.snapPhoto.bind(this)}>
+                />}
+
+        {this._maybeRenderUrl()}
+
+        <StatusBar hidden />
+      </View>
+    );
+  }
+
+  _handlePressUrl = () => {
+    Alert.alert(
+      'Open this URL?',
+      this.state.lastScannedUrl,
+      [
+        {
+          text: 'Yes',
+          onPress: () => Linking.openURL(this.state.lastScannedUrl),
+        },
+        { text: 'No', onPress: () => {} },
+      ],
+      { cancellable: false }
+    );
+  };
+
+  _handlePressCancel = () => {
+    this.setState({ lastScannedUrl: null });
+  };
+
+  _maybeRenderUrl = () => {
+    if (!this.state.lastScannedUrl) {
+      return;
+    }
+
+    return (
+      <View style={styles.bottomBar}>
+      <TouchableOpacity style={styles.taksButton} onPress={() => this.props.navigation.navigate('Tasks')}>
                   <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
                   />
               </TouchableOpacity>
-              </View>
-            </Camera>
-          </ScrollView>
-        </View>
-        );
-    }
-  }
- async snapPhoto() {  
-    console.log('Button photo');
-    console.log('this.props: ', this.props);
-    if (this.camera) {
-       console.log('Taking photo');
-       const options = { quality: 1, base64: true, fixOrientation: true, 
-       exif: true};
-       await this.camera.takePictureAsync(options).then(photo => {
-          this.props.navigation.navigate('ImageStack', { name: 'ImageStack', people: people}) 
-           });     
-     }
-    }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
+        <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
+          <Text numberOfLines={1} style={styles.urlText}>
+            {this.state.lastScannedUrl}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={this._handlePressCancel}>
+          <Text style={styles.cancelButtonText}>
+            Cancel
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 }
 
 const styles = StyleSheet.create({
-  captureButton:{
-     marginTop: 600,
-     marginLeft: 70,
-     
+  taksButton:{
+    position: 'absolute', 
+    right: 0
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    justifyContent: 'center',
+    backgroundColor: '#000',
   },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
+  bottomBar: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 15,
+    flexDirection: 'row',
+  },
+  url: {
+    flex: 1,
+  },
+  urlText: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  cancelButton: {
+    marginLeft: 10,
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    justifyContent: 'center',
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  cancelButtonText: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 18,
   },
 });
