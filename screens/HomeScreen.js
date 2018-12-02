@@ -39,7 +39,10 @@ export default class App extends Component {
 
     return (
       <View style={styles.container}>
-
+        <TouchableOpacity style={styles.taksButton} onPress={() => this.props.navigation.navigate('Tasks')}>
+                  <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
+                  />
+        </TouchableOpacity>
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
@@ -87,10 +90,7 @@ export default class App extends Component {
 
     return (
       <View style={styles.bottomBar}>
-      <TouchableOpacity style={styles.taksButton} onPress={() => this.props.navigation.navigate('Tasks')}>
-                  <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
-                  />
-              </TouchableOpacity>
+      
 
         <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
           <Text numberOfLines={1} style={styles.urlText}>
@@ -111,8 +111,8 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   taksButton:{
-    position: 'absolute', 
-    right: 0
+    position: 'absolute',
+    right: 0,
   },
   container: {
     flex: 1,
