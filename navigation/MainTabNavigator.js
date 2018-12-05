@@ -8,7 +8,6 @@ import TasksScreen from '../screens/TasksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LeaderBoardScreen from'../screens/LeaderBoard';
 import JokeScreen from '../screens/JokeScreen';
-import ImageScreen from '../screens/ImageScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -27,22 +26,6 @@ HomeStack.navigationOptions = {
     />
   ),
 };
-const ImageStack = createStackNavigator({
-  Image: ImageScreen,
-});
-
-ImageStack.navigationOptions = {
-  tabBarLabel: 'Image',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios'
-        ? `ios-options${focused ? ''
-        : '-outline'}` : 'md-link'}
-    />
-  ),
-};
-
 
 const TasksStack = createStackNavigator({
   Tasks: TasksScreen,
@@ -111,8 +94,6 @@ JokeStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   TasksStack,
-  ImageStack,
   LeaderboardStack,
-  // SettingsStack,
   JokeStack,
 });
