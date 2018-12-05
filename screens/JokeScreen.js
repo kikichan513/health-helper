@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
+import { AsyncStorage, View, Button, Text, StyleSheet, Dimensions } from 'react-native';
 
 export default class JokeScreen extends React.Component {
   static navigationOptions = {
@@ -10,7 +10,8 @@ export default class JokeScreen extends React.Component {
   constructor(){
     super();
     this.state = {
-      bodyText: "No joke for now!",
+      bodyText: " Take the next medication first!",
+      backgroundColor: '#FAB913'
     }
   }
 
@@ -53,15 +54,15 @@ export default class JokeScreen extends React.Component {
       <View>
         <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
           <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
-              Your Joke of the Day
+               Joke of the Day
           </Text>
         </View>
-        <Text style={{paddingBottom: 10, paddingTop: 10, paddingLeft: 10, paddingRight: 10, fontSize: 15}}>
+        <Text style={{paddingTop: 150, paddingLeft: 10, paddingRight: 10, paddingBottom:20, fontWeight: 'bold', width: Dimensions.get('window').width, height: 480, backgroundColor: '#FAB913', alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,textAlignVertical: "center"}}>
           {this.state.bodyText}
-        </Text>
+        </Text> 
         <Button
           title="New Joke"
-          color="#841584"
+          style={{backgroundColor: 'red', }}
           onPress={() => {this._retrieveData()}}
         />
       </View>
@@ -72,7 +73,5 @@ export default class JokeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
   },
 });

@@ -37,22 +37,21 @@ export default class App extends Component {
   render() {
     const { navigate } = this.props.navigation
 
-    return (
+    return (   
       <View style={styles.container}>
-        <TouchableOpacity style={styles.taksButton} onPress={() => this.props.navigation.navigate('Tasks')}>
-                  <Image style= {{width: 63, height: 63}} source={require('../assets/images/task.png')}          
-                  />
-        </TouchableOpacity>
+  
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
-              ? <Text style={{ color: '#fff' }}>
+              ? <Text style={{ color: 'black' }}>
                   Camera permission is not granted
                 </Text>
-              : <BarCodeScanner
+              : 
+
+              <BarCodeScanner
                   onBarCodeRead={this._handleBarCodeRead}
                   style={{
-                    height: Dimensions.get('window').height,
+                    height: Dimensions.get('window').height ,
                     width: Dimensions.get('window').width,
                   }}
                 />}
@@ -88,47 +87,20 @@ export default class App extends Component {
       return;
     }
 
-    return (
-      <View style={styles.bottomBar}>
-      
-
-        <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
-          <Text numberOfLines={1} style={styles.urlText}>
-            {this.state.lastScannedUrl}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={this._handlePressCancel}>
-          <Text style={styles.cancelButtonText}>
-            Cancel
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+    
   };
 }
 
 const styles = StyleSheet.create({
-  taksButton:{
-    position: 'absolute',
-    right: 0,
-  },
+
   container: {
     flex: 1,
     alignItems: 'center',
+    padding: 0,
     justifyContent: 'center',
-    backgroundColor: '#000',
+    backgroundColor: 'black',
   },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 15,
-    flexDirection: 'row',
-  },
+ 
   url: {
     flex: 1,
   },
