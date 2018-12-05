@@ -31,16 +31,27 @@ export default class App extends Component {
       } catch (error) {console.log("error");}
     }
 
+    _simpleAlert = (title, task) => {
+        console.log("alert task", task)
+        Alert.alert(title, task,
+          [{ text: 'OK', onPress: () => { } }],
+          {cancelable:false}
+        )
+    }
     _alert = (title, task) => {
         console.log("alert task", task)
         Alert.alert(title, task,
             [{ text: 'OK', onPress: () => {
+                if (this.state.cColor == 'grey') {
+                  this._simpleAlert('You already completed this task!')
+                }
+                else {
                 this.props.navigation.navigate('LeaderBoard'),
                 this._storeData(task),
                 this.setState({
                   cColor: 'grey'
                 }),
-                console.log(task) } },
+                console.log(task) } } },
                 { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
         )
@@ -53,18 +64,19 @@ export default class App extends Component {
     //which can be done by using the simple like given below
     //that.setState({ totalDuration: 30 }); //which is 30 sec
     var date = moment()
-      .utcOffset('+05:30')
+      .utcOffset('-05:00')
       .format('YYYY-MM-DD hh:mm:ss');
     //Getting the current date-time with required formate and UTC   
-    var expirydate = '2018-12-23 04:00:45';//You can set your own date-time
+    var expirydate = '2018-12-02 17:00:00';//You can set your own date-time
     //Let suppose we have to show the countdown for above date-time 
-    var diffr = moment.duration(moment(expirydate).diff(moment(date)));
+    var diffr = moment.duration(moment(date).diff(moment(expirydate)));
     //difference of the expiry date-time given and current date-time
     var hours = parseInt(diffr.asHours());
     var minutes = parseInt(diffr.minutes());
     var seconds = parseInt(diffr.seconds());
     var d = hours * 60 * 60 + minutes * 60 + seconds;
     //converting in seconds
+    d = (24 * 60 * 60) - (d % (24 * 60 * 60))
     that.setState({ totalDuration: d });
     //Settign up the duration of countdown in seconds to re-render
   }
@@ -78,11 +90,22 @@ export default class App extends Component {
           </Text>
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
+          <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20}}>
+              Press on the task you want to complete!
+          </Text>
+        </View>
+        <View style={{ paddingTop: 10, alignItems: 'center' }}>
           <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
               Task One
           </Text>
         </View>
-      <View style={{ flex: 1, justifyContent: 'center', paddingTop: 55, paddingBottom: 30}}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ fontSize: 15, color: 'grey', paddingTop: 10}}>
+                  days          hours          mins           secs
+          </Text>
+        </View>
+
+      <View style={{ flex: 1, justifyContent: 'center', paddingTop: 45, paddingBottom: 30}}>
         <CountDown id= 'Task One'
           digitBgColor={this.state.cColor}
           until={this.state.totalDuration}
