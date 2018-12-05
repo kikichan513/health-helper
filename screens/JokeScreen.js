@@ -57,11 +57,11 @@ export default class JokeScreen extends React.Component {
                Joke of the Day
           </Text>
         </View>
-        <Text style={{paddingTop: 150, paddingLeft: 10, paddingRight: 10, paddingBottom:20, fontWeight: 'bold', width: Dimensions.get('window').width, height: 480, backgroundColor: '#FAB913', alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,textAlignVertical: "center"}}>
+        <Text style={{paddingTop: 150, paddingLeft: 10, paddingRight: 10, paddingBottom:20, fontWeight: 'bold', width: Dimensions.get('window').width, height: 480, backgroundColor: '#FAB913', alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,color: '#545454', textAlignVertical: "center"}}>
           {this.state.bodyText}
         </Text> 
         <Button
-          title="New Joke"
+          title="Generate New Joke"
           style={{backgroundColor: 'red', }}
           onPress={() => {this._retrieveData()}}
         />
