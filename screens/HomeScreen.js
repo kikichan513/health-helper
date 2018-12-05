@@ -35,14 +35,12 @@ export default class App extends Component {
     }
   };
 
-
   render() {
     const { navigate } = this.props.navigation
 
 
     return (   
-      <View style={styles.container}>
-
+        <View style={styles.container}>
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
@@ -54,8 +52,8 @@ export default class App extends Component {
               <BarCodeScanner
                   onBarCodeRead={this._handleBarCodeRead}
                   style={{
-                    height: Dimensions.get('window').height ,
-                    width: Dimensions.get('window').width,
+                  height: Dimensions.get('window').height ,
+                  width: Dimensions.get('window').width,
                   }}
                 />}
 
