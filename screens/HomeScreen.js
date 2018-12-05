@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image } from 'react-native';
+
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image, Header } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, SafeAreaView } from 'react-navigation';
 
 
 export default class App extends Component {
   state = {
     hasCameraPermission: null,
-    lastScannedUrl: null,
+    lastScannedUrl: null
   };
 
   componentDidMount() {
     this._requestCameraPermission();
+
   }
 
   _requestCameraPermission = async () => {
@@ -24,7 +26,6 @@ export default class App extends Component {
   _handleBarCodeRead = result => {
     if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
-      this.setState({ lastScannedUrl: result.data });
       {/* logic to go to next screen => can move this to the tab screen*/}
       console.log("lastScannedUrl" + result.data)
       if (result.data == "adherence"){
@@ -34,12 +35,14 @@ export default class App extends Component {
     }
   };
 
+
   render() {
     const { navigate } = this.props.navigation
 
+
     return (   
       <View style={styles.container}>
-  
+
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
@@ -98,7 +101,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     justifyContent: 'center',
-    backgroundColor: 'black',
+    left:0,
+    right:0,
+    top:-10,
+    bottom:0
   },
  
   url: {

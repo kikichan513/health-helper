@@ -91,12 +91,12 @@ export default class App extends Component {
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
           <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20}}>
-              Press on the task you want to complete!
+              Press on the time under the medication that you have just taken!
           </Text>
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
           <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
-              Task One
+              Daily Pill
           </Text>
         </View>
         <View style={{ alignItems: 'center' }}>
