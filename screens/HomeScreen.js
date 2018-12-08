@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, AsyncStorage } from 'react-navigation';
 
 
 export default class App extends Component {
@@ -22,6 +22,7 @@ export default class App extends Component {
   };
 
   _handleBarCodeRead = result => {
+
     if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
       this.setState({ lastScannedUrl: result.data });
@@ -35,11 +36,13 @@ export default class App extends Component {
   };
 
   render() {
+    this.retrieveDB();
+
     const { navigate } = this.props.navigation
 
     return (   
       <View style={styles.container}>
-  
+        
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
