@@ -22,9 +22,12 @@
     "react-native-countdown-component": "^1.8.3",
     "react-native-elements": "^0.19.1",
     "react-native-leaderboard": "^1.0.5",
+    "react-native-modal": "^7.0.1",
     "react-native-reanimated": "^1.0.0-alpha.10",
     "react-native-simple-camera": "^0.1.1",
-    "react-navigation": "^2.16.0"
+    "react-native-simple-login": "^1.1.0",
+    "react-navigation": "^2.16.0",
+    "tcomb-form-native": "^0.6.20"
   },
   "devDependencies": {
     "jest-expo": "30.0.0"

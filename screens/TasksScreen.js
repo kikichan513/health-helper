@@ -6,6 +6,7 @@ import { View, Alert, Text, AsyncStorage, TouchableHighlight } from 'react-nativ
 import CountDown from 'react-native-countdown-component';
 //import CountDown to show the timer
 import moment from 'moment';
+import { _storeDB } from '../db/database';
 //import moment to help you play with date and time
 var DB = require('../db/database');
 
@@ -15,10 +16,10 @@ var username = "HappyVampire";
 
 export default class App extends Component {
 
-    static navigationOptions = {
-        header: null,
-        title: 'Tasks',
-    };
+  static navigationOptions = {
+      header: null,
+      title: 'Tasks',
+  };
   constructor(props) {
     super(props);
     //initialize the counter duration
@@ -28,12 +29,14 @@ export default class App extends Component {
     };
   }
 
-  _storeData = async (task) => {
+  _storeData = async () => {
     try {
-        await AsyncStorage.setItem(task, "1");
-        console.log("async printing" + task);
-      } catch (error) {console.log("error");}
-    }
+      const user = await AsyncStorage.getItem('currentUser');
+      value = parseInt(DB._retrieveDB(user));
+      value = String(value + 1);
+      DB._storeDB(user, value);
+    } catch (error) {}
+  }
 
     _simpleAlert = (title, task) => {
         console.log("alert task", task)
@@ -51,7 +54,7 @@ export default class App extends Component {
                 }
                 else {
                 this.props.navigation.navigate('LeaderBoard'),
-                this._storeData(task),
+                this._storeData(),
                 this.setState({
                   cColor: 'grey'
                 })
@@ -94,7 +97,7 @@ export default class App extends Component {
           </Text>
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20}}>
+          <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20, paddingLeft: 10, paddingRight:10 }}>
               Press on the time under the medication that you have just taken!
           </Text>
         </View>
@@ -103,13 +106,13 @@ export default class App extends Component {
               Daily Pill
           </Text>
         </View>
-        <View style={{ alignItems: 'center' }}>
+        {/* <View style={{ alignItems: 'center' }}>
           <Text style={{ fontSize: 15, color: 'grey', paddingTop: 10}}>
                   days          hours          mins           secs
           </Text>
-        </View>
+        </View> */}
 
-      <View style={{ flex: 1, justifyContent: 'center', paddingTop: 45, paddingBottom: 30}}>
+      <View style={{ justifyContent: 'center', paddingTop: 15, paddingBottom: 30}}>
         <CountDown id= 'Task One'
           digitBgColor={this.state.cColor}
           until={parseInt(this.state.totalDuration)}

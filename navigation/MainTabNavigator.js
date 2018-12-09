@@ -3,11 +3,30 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
+import SignOutScreen from '../screens/SignOut.js'
 import HomeScreen from '../screens/HomeScreen';
 import TasksScreen from '../screens/TasksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LeaderBoardScreen from'../screens/LeaderBoard';
 import JokeScreen from '../screens/JokeScreen';
+
+const SignOutStack = createStackNavigator({
+  SignOut: SignOutScreen,
+});
+
+SignOutStack.navigationOptions = {
+  tabBarLabel: 'Sign Out',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-exit${focused ? '' : '-outline'}`
+          : 'md-exit'
+      }
+    />
+  ),
+};
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -20,8 +39,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-qr-scanner${focused ? '' : '-outline'}`
+          : 'md-qr-scanner'
       }
     />
   ),
@@ -37,8 +56,8 @@ TasksStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios'
-        ? `ios-options${focused ? ''
-        : '-outline'}` : 'md-link'}
+        ? `ios-list-box${focused ? ''
+        : '-outline'}` : 'md-list-box'}
     />
   ),
 };
@@ -69,7 +88,7 @@ LeaderboardStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios'
-      ? `ios-options${focused ? '' : '-outline'}`
+      ? `ios-trophy${focused ? '' : '-outline'}`
       : 'md-trophy'}
     />
   ),
@@ -85,7 +104,7 @@ JokeStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios'
-      ? `ios-options${focused ? '' : '-outline'}`
+      ? `ios-happy${focused ? '' : '-outline'}`
       : 'md-happy'}
     />
   ),
@@ -96,4 +115,5 @@ export default createBottomTabNavigator({
   TasksStack,
   LeaderboardStack,
   JokeStack,
+  SignOutStack,
 });

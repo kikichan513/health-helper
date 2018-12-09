@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image, Header } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import { createStackNavigator, AsyncStorage, SafeAreaView} from 'react-navigation';
 
 // import _storeDB from '../db/database';
 // import _retrieveDB from '../db/database';
@@ -10,6 +9,11 @@ import { createStackNavigator, AsyncStorage, SafeAreaView} from 'react-navigatio
 var DB = require('../db/database');
 
 export default class App extends Component {
+  static navigationOptions = {
+    header: null,
+    title: 'Camera',
+  };
+
   state = {
     hasCameraPermission: null,
     lastScannedUrl: null

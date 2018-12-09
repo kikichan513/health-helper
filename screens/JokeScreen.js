@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, View, Button, Text, StyleSheet, Dimensions } from 'react-native';
+import { AsyncStorage, View, Button, Text, Dimensions } from 'react-native';
 
 export default class JokeScreen extends React.Component {
   static navigationOptions = {
@@ -69,9 +69,3 @@ export default class JokeScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
