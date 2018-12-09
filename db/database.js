@@ -1,26 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import { AsyncStorage, View, Button, Text, StyleSheet, Dimensions } from 'react-native';
 
-const var user = "Funny Witch"
-const var item = 98
+const numTasks = 0
 
-_storeDB = async () => {
+export async function _storeDB(user, item) { 
 	try {
 		await AsyncStorage.setItem(user, item);
 	} catch (error) {
 		// Error saving data
 	}
-}
+};
 
-_retrieveDB = async () => {
+
+export async function _retrieveDB(user) {
 	try {
-		const value = await AsyncStorage.getItem(user);
-
+		var value = await AsyncStorage.getItem(user);
 		if (value !== null) {
-			//data
-			console.log(value);
+			console.log(value)
+			return value;
+			// return value;
 		}
 	} catch (error) {
 		//Error retrieving data
 	}
+}
+
+export function _getnumTask(){
+	return numTasks;
+};
+
+module.exports = { 
+	_storeDB,
+	_retrieveDB
 }

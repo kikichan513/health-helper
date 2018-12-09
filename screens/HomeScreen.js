@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { BarCodeScanner, Permissions } from 'expo';
-import { createStackNavigator, AsyncStorage } from 'react-navigation';
 
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image, Header } from 'react-native';
+import { BarCodeScanner, Permissions } from 'expo';
+import { createStackNavigator, AsyncStorage, SafeAreaView} from 'react-navigation';
+
+// import _storeDB from '../db/database';
+// import _retrieveDB from '../db/database';
+
+var DB = require('../db/database');
 
 export default class App extends Component {
   state = {
     hasCameraPermission: null,
-    lastScannedUrl: null,
+    lastScannedUrl: null
   };
 
   componentDidMount() {
     this._requestCameraPermission();
+
   }
 
   _requestCameraPermission = async () => {
@@ -25,7 +31,6 @@ export default class App extends Component {
 
     if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
-      this.setState({ lastScannedUrl: result.data });
       {/* logic to go to next screen => can move this to the tab screen*/}
       console.log("lastScannedUrl" + result.data)
       if (result.data == "adherence"){
@@ -36,13 +41,17 @@ export default class App extends Component {
   };
 
   render() {
-    this.retrieveDB();
+    DB._storeDB("FunnyWitch", "10");
+    DB._storeDB("HappyVampire", "12");
+    DB._storeDB("CuriousMermaid", "5");
+    DB._storeDB("SadWerewolf", "4");
+    DB._storeDB("AngryFairy", "6");
 
     const { navigate } = this.props.navigation
 
+
     return (   
-      <View style={styles.container}>
-        
+        <View style={styles.container}>
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
@@ -54,8 +63,8 @@ export default class App extends Component {
               <BarCodeScanner
                   onBarCodeRead={this._handleBarCodeRead}
                   style={{
-                    height: Dimensions.get('window').height ,
-                    width: Dimensions.get('window').width,
+                  height: Dimensions.get('window').height ,
+                  width: Dimensions.get('window').width,
                   }}
                 />}
 
@@ -101,7 +110,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     justifyContent: 'center',
-    backgroundColor: 'black',
+    left:0,
+    right:0,
+    top:-10,
+    bottom:0
   },
  
   url: {

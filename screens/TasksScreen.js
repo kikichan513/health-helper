@@ -7,7 +7,11 @@ import CountDown from 'react-native-countdown-component';
 //import CountDown to show the timer
 import moment from 'moment';
 //import moment to help you play with date and time
+var DB = require('../db/database');
 
+var completed = 0;
+var total = 20;
+var username = "HappyVampire";
 
 export default class App extends Component {
 
@@ -50,8 +54,8 @@ export default class App extends Component {
                 this._storeData(task),
                 this.setState({
                   cColor: 'grey'
-                }),
-                console.log(task) } } },
+                })
+                 } } },
                 { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
         )
@@ -91,12 +95,12 @@ export default class App extends Component {
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
           <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20}}>
-              Press on the task you want to complete!
+              Press on the time under the medication that you have just taken!
           </Text>
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
           <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
-              Task One
+              Daily Pill
           </Text>
         </View>
         <View style={{ alignItems: 'center' }}>
@@ -108,7 +112,7 @@ export default class App extends Component {
       <View style={{ flex: 1, justifyContent: 'center', paddingTop: 45, paddingBottom: 30}}>
         <CountDown id= 'Task One'
           digitBgColor={this.state.cColor}
-          until={this.state.totalDuration}
+          until={parseInt(this.state.totalDuration)}
           //duration of countdown in seconds
           timetoShow={('H', 'M', 'S')}
           //format to show
