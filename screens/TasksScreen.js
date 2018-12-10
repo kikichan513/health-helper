@@ -33,12 +33,21 @@ export default class App extends Component {
     try {
       const user = await AsyncStorage.getItem('currentUser');
       value = parseInt(await AsyncStorage.getItem(user));
+      console.log("initial value: " + value);
       value = String(value + 1);
+      console.log("final value: " + value);
       DB._storeDB(user, value);
-      total = parseInt(await AsyncStorage.getItem("total"));
-      total = String(total + 1);
-      DB._storeDB("total", total);
+      DB._addnewTask();
     } catch (error) {}
+  }
+
+  _barcodeRead = async () => {
+    let read = '';
+    try {
+      read = await AsyncStorage.getItem('barcodeRead') || '0';
+      await AsyncStorage.setItem('barcodeRead', '0');
+    } catch (error) {}
+    return read;
   }
 
     _simpleAlert = (title, task) => {
@@ -49,19 +58,22 @@ export default class App extends Component {
         )
     }
     _alert = (title, task) => {
-        console.log("alert task", task)
+        var barcodeRead;
+        console.log("main alert task", task)
+        this._barcodeRead().then(x => barcodeRead = x);
         Alert.alert(title, task,
             [{ text: 'OK', onPress: () => {
                 if (this.state.cColor == 'grey') {
-                  this._simpleAlert('You already completed this task!')
-                }
-                else {
-                this.props.navigation.navigate('LeaderBoard'),
-                this._storeData(),
-                this.setState({
-                  cColor: 'grey'
-                })
-                 } } },
+                  this._simpleAlert('You already completed this task!');
+                } else if (barcodeRead === '1') {
+                  this.props.navigation.navigate('LeaderBoard');
+                  this._storeData();
+                  this.setState({
+                    cColor: 'grey'
+                  });
+                } else {
+                  this._simpleAlert('No QR code was scanned!')
+                } } },
                 { text: 'Cancel', onPress: () => { } }],
             { cancelable: false }
         )
@@ -124,7 +136,7 @@ export default class App extends Component {
           //format to show
           onFinish={() => alert("Time's up!")}
           //on Finish call
-          onPress={() => this._alert('Submit?', 'Task One')}
+          onPress={() => this._alert('Submit?', 'Daily Pill')}
           //on Press call
           size={30}
         />

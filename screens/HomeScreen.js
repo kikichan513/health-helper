@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, Image, Header } from 'react-native';
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, AsyncStorage } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 
 // import _storeDB from '../db/database';
@@ -39,8 +39,18 @@ export default class App extends Component {
       console.log("lastScannedUrl" + result.data)
       if (result.data == "adherence"){
         console.log("lets navigate")
-        this.props.navigation.navigate('Tasks')
+        this._barcodeSuccess();
+        this.props.navigation.navigate('Tasks');
       }
+    }
+  };
+
+  _barcodeSuccess = async () => {
+    try {
+      await AsyncStorage.setItem('barcodeRead', '1');
+      console.log('barcode set');
+    } catch (error) {
+
     }
   };
 
@@ -52,7 +62,6 @@ export default class App extends Component {
     DB._storeDB("AngryFairy", "6");
 
     const { navigate } = this.props.navigation
-
 
     return (   
         <View style={styles.container}>

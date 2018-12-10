@@ -14,6 +14,10 @@ export default class LeaderBoard extends Component {
         data: []
     }
 
+    componentWillUnmount() {
+        this.isUnmount = true;
+    }
+
     _alert = (title, body) => {
         Alert.alert(title, body,
             [{ text: 'OK', onPress: () => { } },],
@@ -22,12 +26,14 @@ export default class LeaderBoard extends Component {
     }
 
     _retrieveData = async () => {
+      const total = DB._getnumTask();
       try {
         const user = await AsyncStorage.getItem('currentUser');
         const value = await AsyncStorage.getItem(user);
-        const total = await AsyncStorage.getItem("total");
-        value = parseInt(value / total * 100);
-        this.setState({data: [
+        //console.log('value: ' + value);
+        value = value / parseFloat(total) * 100;
+        //console.log('total: ' + total);
+        !this.isUnmount && this.setState({data: [
           { name: 'Black chair coffee', score: 78, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
           { name: 'Lattee cafe', score: 88, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
           { name: 'Beanie soft turtle', score: 98, iconUrl: 'http://ttsbilisim.com/wp-content/uploads/2014/09/20120807.png' },

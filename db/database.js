@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { AsyncStorage, View, Button, Text, StyleSheet, Dimensions } from 'react-native';
 
-const numTasks = 0
+var numTasks = 10
 
 export async function _storeDB(user, item) { 
 	try {
@@ -29,7 +29,13 @@ export function _getnumTask(){
 	return numTasks;
 };
 
+export function _addnewTask(){
+	numTasks++;
+}
+
 module.exports = { 
 	_storeDB,
-	_retrieveDB
+	_retrieveDB,
+	_getnumTask,
+	_addnewTask
 }
