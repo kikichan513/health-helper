@@ -12,12 +12,11 @@ export async function _storeDB(user, item) {
 	}
 };
 
-
 export async function _retrieveDB(user) {
 	try {
-		var value = await AsyncStorage.getItem(user);
+		const value = await AsyncStorage.getItem(user);
 		if (value !== null) {
-			console.log(value)
+			console.log("print" + value)
 			return value;
 			// return value;
 		}

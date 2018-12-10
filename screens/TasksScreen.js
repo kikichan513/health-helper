@@ -32,9 +32,12 @@ export default class App extends Component {
   _storeData = async () => {
     try {
       const user = await AsyncStorage.getItem('currentUser');
-      value = parseInt(DB._retrieveDB(user));
+      value = parseInt(await AsyncStorage.getItem(user));
       value = String(value + 1);
       DB._storeDB(user, value);
+      total = parseInt(await AsyncStorage.getItem("total"));
+      total = String(total + 1);
+      DB._storeDB("total", total);
     } catch (error) {}
   }
 
