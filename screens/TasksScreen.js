@@ -103,7 +103,7 @@ export default class App extends Component {
       .utcOffset('-05:00')
       .format('YYYY-MM-DD hh:mm:ss');
     //Getting the current date-time with required formate and UTC   
-    var expirydate = '2018-12-02 05:00:00';//You can set your own date-time
+    var expirydate = '2018-12-02 04:35:00';//You can set your own date-time
     //Let suppose we have to show the countdown for above date-time 
     var diffr = moment.duration(moment(date).diff(moment(expirydate)));
     //difference of the expiry date-time given and current date-time
