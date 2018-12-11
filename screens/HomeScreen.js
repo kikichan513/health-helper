@@ -56,7 +56,7 @@ export default class App extends Component {
 
   render() {
     DB._storeDB("FunnyWitch", "10");
-    DB._storeDB("HappyVampire", "12");
+    DB._storeDB("HappyVampire", "9");
     DB._storeDB("CuriousMermaid", "5");
     DB._storeDB("SadWerewolf", "4");
     DB._storeDB("AngryFairy", "6");

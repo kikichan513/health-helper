@@ -71,15 +71,27 @@ export default class SignInScreen extends React.Component {
   
   _checkExistingUser = async (user) => {
     try {
+      AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys, (err, stores) => {
+          stores.map((result, i, store) => {
+            // get at each store's key/value so you can work with it
+            let key = store[i][0];
+            let value = store[i][1];
+            console.log(key + ": " + value);
+          });
+        });
+      });
       const value = await AsyncStorage.getItem(user);
+      console.log("SignIn.js Initial user set: " + user);
       if (value == null) {
         try {
-          await AsyncStorage.setItem(user, "10");
-          await AsyncStorage.setItem("total", "10");
+          console.log("SignIn.js New user found: " + user);
+          AsyncStorage.setItem(user, "10");
+          console.log("SignIn.js User set: 10");
         } catch (error) {
 
         }
-      }
+      } else {console.log("SignIn.js Old user found: " + value);}
       try {
         await AsyncStorage.setItem('currentUser', user);
       } catch (error) {

@@ -32,12 +32,13 @@ export default class App extends Component {
   _storeData = async () => {
     try {
       const user = await AsyncStorage.getItem('currentUser');
-      value = parseInt(await AsyncStorage.getItem(user));
-      console.log("initial value: " + value);
-      value = String(value + 1);
-      console.log("final value: " + value);
-      DB._storeDB(user, value);
+      const value = await AsyncStorage.getItem(user);
+      value = parseInt(value);
+      value = value + 1;
+      const stringValue = value.toString();
+      DB._storeDB(user, stringValue);
       DB._addnewTask();
+      DB._storeDB('taskComplete', '1');
     } catch (error) {}
   }
 
@@ -66,11 +67,12 @@ export default class App extends Component {
                 if (this.state.cColor == 'grey') {
                   this._simpleAlert('You already completed this task!');
                 } else if (barcodeRead === '1') {
-                  this.props.navigation.navigate('LeaderBoard');
                   this._storeData();
                   this.setState({
                     cColor: 'grey'
                   });
+                  this._simpleAlert('Congratulations!', 'You have taken your ' + task + '. Click "Generate New Joke" now!');
+                  this.props.navigation.navigate('Joke');
                 } else {
                   this._simpleAlert('No QR code was scanned!')
                 } } },

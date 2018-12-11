@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, View, Button, Text, Dimensions } from 'react-native';
+import { AsyncStorage, View, Button, Text, Dimensions, Alert, ScrollView } from 'react-native';
 
 export default class JokeScreen extends React.Component {
   static navigationOptions = {
@@ -17,12 +17,15 @@ export default class JokeScreen extends React.Component {
 
   _retrieveData = async () => {
     try {
-      value = await AsyncStorage.getItem('Task One');
+      const value = await AsyncStorage.getItem('taskComplete');
       console.log(value)
-      if (value == "1") {
+      if (value == '1') {
         console.log("async joke: " + value);
         this.newJoke();
-        AsyncStorage.setItem('Task One', "0");
+        await AsyncStorage.setItem('taskComplete', 'false');
+        
+      } else {
+        Alert.alert('No new jokes!', 'You have to complete another task first.');
       }
      } catch (error) {
        console.log("async joke error")
@@ -57,14 +60,16 @@ export default class JokeScreen extends React.Component {
                Joke of the Day
           </Text>
         </View>
-        <Text style={{paddingTop: 150, paddingLeft: 10, paddingRight: 10, paddingBottom:20, width: Dimensions.get('window').width, height: 480, backgroundColor: '#FAB913', alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,color: 'black', textAlignVertical: "center"}}>
+        <Text style={{paddingTop: 85, paddingLeft: 10, paddingRight: 10, paddingBottom:85, height: 480, alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,color: 'black', textAlignVertical: "center"}}>
           {this.state.bodyText}
-        </Text> 
-        <Button
-          title="Generate New Joke"
-          style={{backgroundColor: 'red', }}
-          onPress={() => {this._retrieveData()}}
-        />
+        </Text>
+        <ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}> 
+          <Button
+            title="Generate New Joke"
+            color="#FAB913"
+            onPress={() => {this._retrieveData()}}
+          />
+        </ScrollView>
       </View>
     );
   }

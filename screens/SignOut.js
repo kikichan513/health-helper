@@ -17,7 +17,17 @@ export default class SignOutScreen extends React.Component {
   
   _signOutAsync = async () => {
     try {
-      await AsyncStorage.setItem('currentUser', '');
+      await AsyncStorage.setItem('currentUser', ' ');
+      AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys, (err, stores) => {
+          stores.map((result, i, store) => {
+            // get at each store's key/value so you can work with it
+            let key = store[i][0];
+            let value = store[i][1];
+            console.log(key + ": " + value);
+          });
+        });
+      });
       this.props.navigation.navigate('Auth');
     } catch (error) {}
   };
@@ -37,7 +47,7 @@ export default class SignOutScreen extends React.Component {
           <Button
             title="Sign Out"
             color="#FAB913"
-            onPress={() => {this._signOutAsync()}}
+            onPress={() => {!this.isUnmount && this._signOutAsync()}}
           />
         </ScrollView>
       </View>
