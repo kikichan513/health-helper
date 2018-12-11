@@ -51,6 +51,18 @@ export default class App extends Component {
     return read;
   }
 
+  _taskAlert = () => {
+    if (this.state.cColor == 'grey') {
+      alert('Time for your next dose!'),
+      this.setState({
+        cColor: '#FAB913'
+      })
+    }
+    else {
+      alert("You didn't take your medication in time! Don't forget your next dose!"),
+      DB._addnewTask()
+    }
+  }
     _simpleAlert = (title, task) => {
         console.log("alert task", task)
         Alert.alert(title, task,
@@ -108,26 +120,21 @@ export default class App extends Component {
     console.log(this.state.totalDuration);
     return (
       <View>
-        <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
+        <View style={{ paddingBottom: 25, paddingTop: 30, backgroundColor: 'black', alignItems: 'center' }}>
           <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
               Tasks
           </Text>
         </View>
-        <View style={{ paddingTop: 10, alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, color: 'grey', paddingTop: 20, paddingLeft: 10, paddingRight:10 }}>
+        <View style={{ margin: 10, paddingTop: 10, alignItems: 'center' , borderWidth: 1, borderRadius: 5}}>
+          <Text style={{ fontSize: 16, color: 'grey', padding: 25, borderColor: 'grey', }}>
               Press on the time under the medication that you have just taken!
           </Text>
         </View>
         <View style={{ paddingTop: 10, alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, color: 'black', paddingTop: 20}}>
-              Daily Pill
+          <Text style={{ fontSize: 20, color: 'black', paddingTop: 20, borderBottomColor: 'grey'}}>
+              Your Daily Pill
           </Text>
         </View>
-        {/* <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontSize: 15, color: 'grey', paddingTop: 10}}>
-                  days          hours          mins           secs
-          </Text>
-        </View> */}
 
       <View style={{ justifyContent: 'center', paddingTop: 15, paddingBottom: 30}}>
         <CountDown id= 'Task One'
@@ -136,7 +143,7 @@ export default class App extends Component {
           //duration of countdown in seconds
           timetoShow={('H', 'M', 'S')}
           //format to show
-          onFinish={() => alert("Time's up!")}
+          onFinish={() => { this._taskAlert(), this.componentDidMount()}}
           //on Finish call
           onPress={() => this._alert('Submit?', 'Daily Pill')}
           //on Press call

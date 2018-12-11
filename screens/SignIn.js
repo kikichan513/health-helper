@@ -6,18 +6,22 @@ import {
   View,
   Text,
   Button,
+  Dimensions,
+  Image
 } from 'react-native';
 import t from 'tcomb-form-native';
+import { Font } from 'expo';
 
 const Form = t.form.Form
 
+
 const User = t.struct({
-  name: t.String,
+  username: t.String,
 })
 
 const options = {
   fields: {
-    name: {
+    username: {
       autoCapitalize: 'none',
       autoCorrect: false
     },
@@ -34,15 +38,17 @@ export default class SignInScreen extends React.Component {
     super(props)
     this.state = {
       value: {
-        name: '',
+        username: '',
       }
     }
   }
 
+
   componentWillUnmount() {
+
     this.setState = {
       value: {
-        name: '',
+        username: '',
       }
     }
   }
@@ -58,7 +64,7 @@ export default class SignInScreen extends React.Component {
     // If the form is valid...
     if (value) {
       const data = {
-        username: value.name,
+        username: value.username,
       }
       this._checkExistingUser(data.username)
       Alert.alert('Logged in!', 'Scan the QR code for your pill.')
@@ -82,12 +88,10 @@ export default class SignInScreen extends React.Component {
         });
       });
       const value = await AsyncStorage.getItem(user);
-      console.log("SignIn.js Initial user set: " + user);
       if (value == null) {
         try {
-          console.log("SignIn.js New user found: " + user);
           AsyncStorage.setItem(user, "10");
-          console.log("SignIn.js User set: 10");
+          AsyncStorage.setItem('numTasks', "10")
         } catch (error) {
 
         }
@@ -105,13 +109,19 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <View>
-        {/* Ghetto Header */}
+        {/* Header */}
+  
         <View style={{ paddingTop: 30, backgroundColor: 'black', alignItems: 'center' }}>
             <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', textAlignVertical: 'center'}}>
-                Welcome to HealthAdherence!
+              Welcome to
+            </Text>
+            <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', textAlignVertical: 'center', paddingBottom: 20}}>
+              Health Helper! 
             </Text>
         </View>
-        <ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
+        <Image style= {{marginTop: 30, marginLeft: Dimensions.get('window').width/2.8, width: 120, height: 120}} source={require('../assets/images/pill.png')}  />
+        <ScrollView style={{ marginTop: Dimensions.get('window').height / 13, paddingLeft: 30, paddingRight: 30}}>
+
           <Form
             ref='form'
             options={options}
@@ -120,6 +130,7 @@ export default class SignInScreen extends React.Component {
             onChange={this._onChange}
           />
           <Button
+            style={{ marginTop: 30}}
             title="Log In"
             color="#FAB913"
             onPress={() => {this._handleAdd()}}

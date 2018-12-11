@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   Dimensions,
+  Image
 } from 'react-native';
 
 export default class SignOutScreen extends React.Component {
@@ -21,7 +22,6 @@ export default class SignOutScreen extends React.Component {
       AsyncStorage.getAllKeys((err, keys) => {
         AsyncStorage.multiGet(keys, (err, stores) => {
           stores.map((result, i, store) => {
-            // get at each store's key/value so you can work with it
             let key = store[i][0];
             let value = store[i][1];
             console.log(key + ": " + value);
@@ -35,15 +35,19 @@ export default class SignOutScreen extends React.Component {
   render() {
     return (
       <View>
-        <View style={{ paddingTop: 30, backgroundColor: 'black', alignItems: 'center' }}>
+        <View style={{ paddingTop: 30, backgroundColor: 'black', alignItems: 'center', paddingBottom: 20 }}>
           <Text style={{ fontSize: 30, color: 'white', textAlign: 'center', textAlignVertical: 'center' }}>
-              Goodbye from HealthAdherence!
+              Good Bye from Health Helper!
           </Text>
         </View>
+                <Image style= {{marginTop: 30, marginLeft: Dimensions.get('window').width/2.8, width: 120, height: 120}} source={require('../assets/images/pill.png')}  />
+
         <ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
-          <Text style={{paddingLeft: 10, paddingRight: 10, paddingTop:10, paddingBottom:10, alignItems: 'center', textAlign: 'center', fontSize: 14 ,color: 'black', textAlignVertical: 'center'}}>
+          <View style={{ marginTop: Dimensions.get('window').height / 10,alignItems: 'center' , borderWidth: 1, borderRadius: 5}}>
+
+          <Text style={{alignItems: 'center', textAlign: 'center', fontSize: 16 ,color: 'grey', textAlignVertical: 'center', padding: 30}}>
             Just log in again with your name to retrieve your data.
-          </Text> 
+          </Text> </View>
           <Button
             title="Sign Out"
             color="#FAB913"

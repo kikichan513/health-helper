@@ -67,17 +67,22 @@ export default class LeaderBoard extends Component {
                     this.props.navigation.navigate('Joke')
                 }
             },
-            evenRowColor: '#edfcf9',
+            evenRowColor: '#fcdc89',
         }
         return (
             <View>
-                {/* Ghetto Header */}
-                <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
+                <View style={{ paddingTop: 30, backgroundColor: 'black', alignItems: 'center' , paddingBottom: 20}}>
                     <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                         Leaderboard
                     </Text>
                 </View>
                 <Leaderboard {...props} />
+
+                <View style={{ margin: 10, marginTop: 30, paddingTop: 10, alignItems: 'center' , borderWidth: 1, borderRadius: 5}}>
+                  <Text style={{ fontSize: 16, color: 'grey', padding: 25, borderColor: 'grey', }}>
+                      Press on your username to see the Joke 
+                  </Text>
+                </View>
             </View>
         )
     }

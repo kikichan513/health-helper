@@ -10,7 +10,7 @@ export default class JokeScreen extends React.Component {
   constructor(){
     super();
     this.state = {
-      bodyText: " Take the next medication first!",
+      bodyText: " Submit the next medication before you can get another joke!",
       backgroundColor: '#FAB913'
     }
   }
@@ -55,15 +55,18 @@ export default class JokeScreen extends React.Component {
   render() {
     return (
       <View>
-        <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
+        <View style={{ paddingTop: 30, backgroundColor: 'black', alignItems: 'center' , paddingBottom: 20}}>
           <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                Joke of the Day
           </Text>
         </View>
-        <Text style={{paddingTop: 85, paddingLeft: 10, paddingRight: 10, paddingBottom:85, height: 480, alignItems: 'center',textAlign: 'center',fontWeight: 'bold',fontSize: 25,color: 'black', textAlignVertical: "center"}}>
-          {this.state.bodyText}
-        </Text>
-        <ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}> 
+
+       <View style={{ margin: 20, alignItems: 'center' , borderWidth: 1, borderRadius: 5, backgroundColor:'#fab913', padding: 70, borderColor: 'white'}}>
+
+        <Text style={{padding: 5, alignItems: 'center',textAlign: 'center',fontSize: 25,color: 'black', textAlignVertical: "center"}}>
+          {this.state.bodyText} </Text>
+          </View>
+        <ScrollView style={{ marginTop: 70, paddingLeft: 10, paddingRight: 10 }}> 
           <Button
             title="Generate New Joke"
             color="#FAB913"
