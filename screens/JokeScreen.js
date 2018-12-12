@@ -15,6 +15,8 @@ export default class JokeScreen extends React.Component {
     }
   }
 
+  // Only show joke if the Task is completed. 
+  // If not, ask user to do finish another task. 
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('taskComplete');
@@ -32,6 +34,7 @@ export default class JokeScreen extends React.Component {
      }
   }
 
+  // Use API to get the joke
   newJoke() {
     fetch('https://icanhazdadjoke.com/', {
       method: 'GET',
@@ -44,7 +47,7 @@ export default class JokeScreen extends React.Component {
     })
     .then((responseText) => {
       this.setState({
-        bodyText: responseText,
+        bodyText: responseText, 
       }, () => console.log("After setState: ", this.state.bodyText))
     })
     .catch((error) => {

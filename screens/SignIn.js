@@ -14,7 +14,6 @@ import { Font } from 'expo';
 
 const Form = t.form.Form
 
-
 const User = t.struct({
   username: t.String,
 })
@@ -75,18 +74,22 @@ export default class SignInScreen extends React.Component {
     }
   }
   
+  // Set user information in AsyncStorage (our database)
   _checkExistingUser = async (user) => {
     try {
       AsyncStorage.getAllKeys((err, keys) => {
         AsyncStorage.multiGet(keys, (err, stores) => {
           stores.map((result, i, store) => {
-            // get at each store's key/value so you can work with it
+            // get at each store's key/value
             let key = store[i][0];
             let value = store[i][1];
             console.log(key + ": " + value);
           });
         });
       });
+
+      // If user not signed in yet, set user
+      // Else, return older user
       const value = await AsyncStorage.getItem(user);
       if (value == null) {
         try {

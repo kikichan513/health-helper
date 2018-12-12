@@ -16,6 +16,8 @@ export default class SignOutScreen extends React.Component {
     title: 'SignOut',
   };
   
+  // Refresh the Async Storage (our database)
+  // Make currentUser = ' '
   _signOutAsync = async () => {
     try {
       await AsyncStorage.setItem('currentUser', ' ');

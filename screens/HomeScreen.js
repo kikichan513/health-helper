@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-
 import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, AsyncStorage } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 
-// import _storeDB from '../db/database';
-// import _retrieveDB from '../db/database';
-
+// database 
 var DB = require('../db/database');
 
 export default class App extends Component {
@@ -24,6 +21,7 @@ export default class App extends Component {
 
   }
 
+  // Ask for permission for camera use
   _requestCameraPermission = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
@@ -31,11 +29,11 @@ export default class App extends Component {
     });
   };
 
+  // Check if scanned correct Qr code is correct
+  // Move to task screen
   _handleBarCodeRead = result => {
-
-    if (result.data !== this.state.lastScannedUrl) {
+      if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
-      {/* logic to go to next screen => can move this to the tab screen*/}
       console.log("lastScannedUrl" + result.data)
       if (result.data == "adherence"){
         console.log("lets navigate")
@@ -45,6 +43,7 @@ export default class App extends Component {
     }
   };
 
+  // If QR success, store information in AsyncStorage (our database)
   _barcodeSuccess = async () => {
     try {
       await AsyncStorage.setItem('barcodeRead', '1');

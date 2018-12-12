@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Alert, Text, AsyncStorage } from 'react-native';
-
 import Leaderboard from 'react-native-leaderboard';
+
+// database 
 var DB = require('../db/database');
 
 export default class LeaderBoard extends Component {
@@ -25,6 +26,7 @@ export default class LeaderBoard extends Component {
         )
     }
 
+    // The 'user' is dynamically taken from the data base DB
     _retrieveData = async () => {
       var total;
       DB._getnumTask().then(x => total = x);
